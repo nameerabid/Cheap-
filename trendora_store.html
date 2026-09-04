@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trendora — Trending Products</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f7f8fb;color:#171717}
+header{background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;z-index:5}
+.nav{max-width:1100px;margin:auto;padding:14px 18px;display:flex;align-items:center;gap:18px}
+.logo{font-size:25px;font-weight:800;color:#1769ff}.tag{font-size:12px;color:#777}
+.search{flex:1;padding:11px 14px;border:1px solid #ddd;border-radius:10px}
+.cart{border:0;background:#171717;color:white;padding:11px 15px;border-radius:10px;cursor:pointer}
+.hero{max-width:1100px;margin:22px auto;padding:35px 22px;background:linear-gradient(120deg,#e9f0ff,#fff);border-radius:18px}
+.hero h1{font-size:38px;margin:0 0 10px}.hero p{color:#555}.btn{background:#1769ff;color:#fff;border:0;padding:12px 18px;border-radius:10px;cursor:pointer}
+.wrap{max-width:1100px;margin:24px auto;padding:0 18px}.cats{display:flex;gap:10px;overflow:auto}.cat{white-space:nowrap;background:white;border:1px solid #e4e4e4;padding:10px 14px;border-radius:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-top:16px}
+.card{background:#fff;border-radius:15px;padding:12px;box-shadow:0 2px 10px #0000000b}.pic{height:180px;border-radius:12px;background:#eef2f7;display:flex;align-items:center;justify-content:center;font-size:54px}.card h3{margin:12px 0 6px}.price{font-weight:800;font-size:19px}.old{text-decoration:line-through;color:#999;font-size:13px;margin-left:7px}.buy{width:100%;margin-top:10px}
+footer{margin-top:40px;background:#171717;color:white;padding:30px;text-align:center}
+.modal{display:none;position:fixed;inset:0;background:#0008;z-index:10;padding:20px}.box{background:#fff;max-width:650px;margin:5vh auto;padding:22px;border-radius:16px;max-height:90vh;overflow:auto}
+.close{float:right;border:0;background:#eee;border-radius:8px;padding:8px}.row{display:flex;justify-content:space-between;gap:10px;margin:10px 0}.field{width:100%;padding:11px;border:1px solid #ddd;border-radius:9px;margin:6px 0}
+@media(max-width:600px){.hero h1{font-size:29px}.nav{flex-wrap:wrap}.search{order:3;flex-basis:100%}}
+</style>
+</head>
+<body>
+<header><div class="nav">
+<div><div class="logo">TRENDORA</div><div class="tag">Trending Products. Smart Prices.</div></div>
+<input id="search" class="search" placeholder="Search products...">
+<button class="cart" onclick="openCart()">🛒 Cart (<span id="count">0</span>)</button>
+</div></header>
+
+<section class="hero"><div class="wrap" style="margin:0;padding:0">
+<h1>Discover What's Trending</h1><p>Useful, exciting products at smart prices. Cash on Delivery available.</p>
+<button class="btn" onclick="document.getElementById('products').scrollIntoView()">Shop Now</button>
+</div></section>
+
+<main class="wrap">
+<h2>Categories</h2>
+<div class="cats">
+<button class="cat" onclick="filter('all')">🔥 Trending</button><button class="cat" onclick="filter('Home')">🏠 Home & Kitchen</button>
+<button class="cat" onclick="filter('Electronics')">📱 Electronics</button><button class="cat" onclick="filter('Beauty')">💄 Beauty</button>
+<button class="cat" onclick="filter('Fashion')">👕 Fashion</button><button class="cat" onclick="filter('Kids')">🧸 Kids</button>
+</div>
+<h2 id="products">Trending Products</h2><div id="grid" class="grid"></div>
+</main>
+
+<div id="modal" class="modal"><div class="box"><button class="close" onclick="closeModal()">✕</button><div id="modalContent"></div></div></div>
+<footer>© 2026 Trendora • Secure Checkout • COD Available</footer>
+
+<script>
+const products=[
+{id:1,name:"Portable Mini Fan",cat:"Electronics",price:499,old:799,icon:"🌀",desc:"Compact rechargeable fan for home, office and travel."},
+{id:2,name:"Kitchen Organizer",cat:"Home",price:349,old:599,icon:"🧺",desc:"Space-saving organizer for a neat kitchen."},
+{id:3,name:"LED Ambient Lamp",cat:"Home",price:699,old:999,icon:"💡",desc:"Modern decorative lamp for bedroom and desk."},
+{id:4,name:"Makeup Organizer",cat:"Beauty",price:399,old:699,icon:"💄",desc:"Keep cosmetics clean and organized."},
+{id:5,name:"Smart Crossbody Bag",cat:"Fashion",price:549,old:899,icon:"👜",desc:"Stylish everyday crossbody bag."},
+{id:6,name:"Kids Drawing Kit",cat:"Kids",price:299,old:499,icon:"🎨",desc:"Creative drawing set for children."}
+];
+let cart=[];
+function render(list=products){grid.innerHTML=list.map(p=>`<article class="card"><div class="pic">${p.icon}</div><h3>${p.name}</h3><div><span class="price">₹${p.price}</span><span class="old">₹${p.old}</span></div><button class="btn buy" onclick="add(${p.id})">Add to Cart</button></article>`).join('')}
+function add(id){let p=products.find(x=>x.id===id);let x=cart.find(x=>x.id===id);x?x.qty++:cart.push({...p,qty:1});update();alert("Added to cart")}
+function update(){count.textContent=cart.reduce((a,x)=>a+x.qty,0)}
+function openCart(){modal.style.display="block";showCart()}
+function closeModal(){modal.style.display="none"}
+function showCart(){modalContent.innerHTML="<h2>Your Cart</h2>"+(cart.length?cart.map(x=>`<div class="row"><span>${x.name} × ${x.qty}</span><b>₹${x.price*x.qty}</b></div>`).join("")+"<hr><h3>Total: ₹"+cart.reduce((a,x)=>a+x.price*x.qty,0)+"</h3><button class='btn' onclick='checkout()'>Proceed to Order</button>":"<p>Your cart is empty.</p>")}
+function checkout(){modalContent.innerHTML=`<h2>Place Your Order</h2><input class="field" placeholder="Full Name"><input class="field" placeholder="Mobile Number"><input class="field" placeholder="Full Address"><input class="field" placeholder="City"><input class="field" placeholder="State"><input class="field" placeholder="PIN Code"><p><b>Payment:</b> Cash on Delivery</p><button class="btn" onclick="placeOrder()">Place Order</button>`}
+function placeOrder(){modalContent.innerHTML="<h2>✅ Order Received</h2><p>Thank you! Your order request has been received.</p><button class='btn' onclick='closeModal()'>Continue Shopping</button>"}
+function filter(cat){render(cat==="all"?products:products.filter(p=>p.cat===cat))}
+search.oninput=e=>{let q=e.target.value.toLowerCase();render(products.filter(p=>p.name.toLowerCase().includes(q)))}
+render();
+</script>
+</body></html>
