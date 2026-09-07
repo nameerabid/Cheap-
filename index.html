@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Trendora — Trending Products</title>
+<title>NESBUL — Trending Products</title>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f7f8fb;color:#171717}
 header{background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;z-index:5}
@@ -24,7 +24,7 @@ footer{margin-top:40px;background:#171717;color:white;padding:30px;text-align:ce
 </head>
 <body>
 <header><div class="nav">
-<div><div class="logo">TRENDORA</div><div class="tag">Trending Products. Smart Prices.</div></div>
+<div><div class="logo">NESBUL</div><div class="tag">Trending Products. Smart Prices.</div></div>
 <input id="search" class="search" placeholder="Search products...">
 <button class="cart" onclick="openCart()">🛒 Cart (<span id="count">0</span>)</button>
 </div></header>
@@ -45,18 +45,23 @@ footer{margin-top:40px;background:#171717;color:white;padding:30px;text-align:ce
 </main>
 
 <div id="modal" class="modal"><div class="box"><button class="close" onclick="closeModal()">✕</button><div id="modalContent"></div></div></div>
-<footer>© 2026 Trendora • Secure Checkout • COD Available</footer>
+<footer>© 2026 NESBUL • Secure Checkout • COD Available</footer>
 
 <script>
-const products=[
-{id:1,name:"Portable Mini Fan",cat:"Electronics",price:499,old:799,icon:"🌀",desc:"Compact rechargeable fan for home, office and travel."},
-{id:2,name:"Kitchen Organizer",cat:"Home",price:349,old:599,icon:"🧺",desc:"Space-saving organizer for a neat kitchen."},
-{id:3,name:"LED Ambient Lamp",cat:"Home",price:699,old:999,icon:"💡",desc:"Modern decorative lamp for bedroom and desk."},
-{id:4,name:"Makeup Organizer",cat:"Beauty",price:399,old:699,icon:"💄",desc:"Keep cosmetics clean and organized."},
-{id:5,name:"Smart Crossbody Bag",cat:"Fashion",price:549,old:899,icon:"👜",desc:"Stylish everyday crossbody bag."},
-{id:6,name:"Kids Drawing Kit",cat:"Kids",price:299,old:499,icon:"🎨",desc:"Creative drawing set for children."}
+const product 
+{id:1
 ];
-let cart=[];
+let cart=[const products=[
+{
+id:1,
+name:"Wildplay Chocolate 2Pcs Combo Perfume",
+cat:"Beauty",
+price:349,
+old:549,
+icon:"🌸",
+desc:"Wildplay Chocolate Apparel Perfume Combo – 2 pieces, 30ml each."
+}
+]; ];
 function render(list=products){grid.innerHTML=list.map(p=>`<article class="card"><div class="pic">${p.icon}</div><h3>${p.name}</h3><div><span class="price">₹${p.price}</span><span class="old">₹${p.old}</span></div><button class="btn buy" onclick="add(${p.id})">Add to Cart</button></article>`).join('')}
 function add(id){let p=products.find(x=>x.id===id);let x=cart.find(x=>x.id===id);x?x.qty++:cart.push({...p,qty:1});update();alert("Added to cart")}
 function update(){count.textContent=cart.reduce((a,x)=>a+x.qty,0)}
